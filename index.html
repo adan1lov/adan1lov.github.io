@@ -24,6 +24,12 @@
         button:hover {
             background-color: #45a049;
         }
+        .back-button {
+            background-color: #f44336;
+        }
+        .back-button:hover {
+            background-color: #d32f2f;
+        }
         .image-container {
             margin: 20px 0;
         }
@@ -32,11 +38,33 @@
             height: auto;
             margin: 10px 0;
         }
-        .back-button {
-            background-color: #f44336;
+        .progress-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
         }
-        .back-button:hover {
-            background-color: #d32f2f;
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 10px;
+        }
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+        .step-number.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .step-name {
+            font-size: 12px;
         }
     </style>
 </head>
@@ -59,64 +87,117 @@
 
     <div id="c4-model-section" style="display: none;">
         <h2>C4-model</h2>
+
+        <div class="progress-bar">
+            <div class="progress-step">
+                <div id="step1" class="step-number active">1</div>
+                <div class="step-name">Контекст</div>
+            </div>
+            <div class="progress-step">
+                <div id="step2" class="step-number">2</div>
+                <div class="step-name">Контейнеры</div>
+            </div>
+            <div class="progress-step">
+                <div id="step3" class="step-number">3</div>
+                <div class="step-name">Компоненты</div>
+            </div>
+            <div class="progress-step">
+                <div id="step4" class="step-number">4</div>
+                <div class="step-name">Код</div>
+            </div>
+        </div>
+
         <div id="c4-context" class="image-container">
             <img src="context.png" alt="Контекстная диаграмма">
-            <br>
-            <button onclick="showC4Container()">Назад</button>
-            <button onclick="showC4Container()">Далее</button>
+            <div>
+                <button onclick="showC4Container()">Далее</button>
+            </div>
         </div>
+
         <div id="c4-container" class="image-container" style="display: none;">
             <img src="container.png" alt="Контейнерная диаграмма">
-            <br>
-            <button onclick="showC4Context()">Назад</button>
-            <button onclick="showC4Component()">Далее</button>
+            <div>
+                <button onclick="showC4Context()">Назад</button>
+                <button onclick="showC4Component()">Далее</button>
+            </div>
         </div>
+
         <div id="c4-component" class="image-container" style="display: none;">
             <img src="component.png" alt="Компонентная диаграмма">
-            <br>
-            <button onclick="showC4Container()">Назад</button>
-            <button onclick="showC4Code()">Далее</button>
+            <div>
+                <button onclick="showC4Container()">Назад</button>
+                <button onclick="showC4Code()">Далее</button>
+            </div>
         </div>
+
         <div id="c4-code" class="image-container" style="display: none;">
             <img src="code.png" alt="Код">
-            <br>
-            <button onclick="showC4Component()">Назад</button>
+            <div>
+                <button onclick="showC4Component()">Назад</button>
+            </div>
         </div>
+
         <button class="back-button" onclick="backToMainMenu()">Назад в меню</button>
     </div>
 
     <script>
+        function updateProgressBar(step) {
+            for (let i = 1; i <= 4; i++) {
+                const stepElement = document.getElementById(`step${i}`);
+                if (i === step) {
+                    stepElement.classList.add("active");
+                } else {
+                    stepElement.classList.remove("active");
+                }
+            }
+        }
+
         function showGraphics() {
             document.getElementById("main-menu").style.display = "none";
             document.getElementById("graphics-section").style.display = "block";
+            document.getElementById("c4-model-section").style.display = "none";
         }
 
         function showC4Model() {
             document.getElementById("main-menu").style.display = "none";
             document.getElementById("c4-model-section").style.display = "block";
             document.getElementById("c4-context").style.display = "block";
+            document.getElementById("c4-container").style.display = "none";
+            document.getElementById("c4-component").style.display = "none";
+            document.getElementById("c4-code").style.display = "none";
+            updateProgressBar(1);
+        }
+
+        function showC4Context() {
+            document.getElementById("c4-context").style.display = "block";
+            document.getElementById("c4-container").style.display = "none";
+            document.getElementById("c4-component").style.display = "none";
+            document.getElementById("c4-code").style.display = "none";
+            updateProgressBar(1);
         }
 
         function showC4Container() {
-            const contextDiv = document.getElementById("c4-context");
-            const containerDiv = document.getElementById("c4-container");
-            if (contextDiv.style.display === "block") {
-                contextDiv.style.display = "none";
-                containerDiv.style.display = "block";
-            } else {
-                contextDiv.style.display = "block";
-                containerDiv.style.display = "none";
-            }
+            document.getElementById("c4-context").style.display = "none";
+            document.getElementById("c4-container").style.display = "block";
+            document.getElementById("c4-component").style.display = "none";
+            document.getElementById("c4-code").style.display = "none";
+            updateProgressBar(2);
         }
 
         function showC4Component() {
+            document.getElementById("c4-context").style.display = "none";
             document.getElementById("c4-container").style.display = "none";
             document.getElementById("c4-component").style.display = "block";
+            document.getElementById("c4-code").style.display = "none";
+            updateProgressBar(3);
         }
 
         function showC4Code() {
+            document.getElementById("c4-context").style.display = "none";
+            document.getElementById("c4-container").style.display = "none";
             document.getElementById("c4-component").style.display = "none";
             document.getElementById("c4-code").style.display = "block";
+            updateProgressBar(4);
         }
 
         function backToMainMenu() {
