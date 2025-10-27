@@ -48,6 +48,7 @@
             flex-direction: column;
             align-items: center;
             margin: 0 10px;
+            cursor: pointer;
         }
         .step-number {
             width: 30px;
@@ -89,19 +90,19 @@
         <h2>C4-model</h2>
 
         <div class="progress-bar">
-            <div class="progress-step">
+            <div class="progress-step" onclick="showC4Context()">
                 <div id="step1" class="step-number active">1</div>
                 <div class="step-name">Контекст</div>
             </div>
-            <div class="progress-step">
+            <div class="progress-step" onclick="showC4Container()">
                 <div id="step2" class="step-number">2</div>
                 <div class="step-name">Контейнеры</div>
             </div>
-            <div class="progress-step">
+            <div class="progress-step" onclick="showC4Component()">
                 <div id="step3" class="step-number">3</div>
                 <div class="step-name">Компоненты</div>
             </div>
-            <div class="progress-step">
+            <div class="progress-step" onclick="showC4Code()">
                 <div id="step4" class="step-number">4</div>
                 <div class="step-name">Код</div>
             </div>
@@ -161,11 +162,7 @@
         function showC4Model() {
             document.getElementById("main-menu").style.display = "none";
             document.getElementById("c4-model-section").style.display = "block";
-            document.getElementById("c4-context").style.display = "block";
-            document.getElementById("c4-container").style.display = "none";
-            document.getElementById("c4-component").style.display = "none";
-            document.getElementById("c4-code").style.display = "none";
-            updateProgressBar(1);
+            showC4Context();
         }
 
         function showC4Context() {
