@@ -1,1 +1,129 @@
-<h>hello world</h>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализ применимости метрик для оценки архитектур микросервисных систем</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .image-container {
+            margin: 20px 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+        }
+        .back-button {
+            background-color: #f44336;
+        }
+        .back-button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <h1>Анализ применимости метрик для оценки архитектур микросервисных систем</h1>
+
+    <div id="main-menu">
+        <button onclick="showGraphics()">Графики</button>
+        <button onclick="showC4Model()">C4-model</button>
+    </div>
+
+    <div id="graphics-section" style="display: none;">
+        <h2>Графики</h2>
+        <div class="image-container">
+            <img src="graph1.png" alt="График 1">
+            <img src="graph2.png" alt="График 2">
+        </div>
+        <button class="back-button" onclick="backToMainMenu()">Назад</button>
+    </div>
+
+    <div id="c4-model-section" style="display: none;">
+        <h2>C4-model</h2>
+        <div id="c4-context" class="image-container">
+            <img src="context.png" alt="Контекстная диаграмма">
+            <br>
+            <button onclick="showC4Container()">Назад</button>
+            <button onclick="showC4Container()">Далее</button>
+        </div>
+        <div id="c4-container" class="image-container" style="display: none;">
+            <img src="container.png" alt="Контейнерная диаграмма">
+            <br>
+            <button onclick="showC4Context()">Назад</button>
+            <button onclick="showC4Component()">Далее</button>
+        </div>
+        <div id="c4-component" class="image-container" style="display: none;">
+            <img src="component.png" alt="Компонентная диаграмма">
+            <br>
+            <button onclick="showC4Container()">Назад</button>
+            <button onclick="showC4Code()">Далее</button>
+        </div>
+        <div id="c4-code" class="image-container" style="display: none;">
+            <img src="code.png" alt="Код">
+            <br>
+            <button onclick="showC4Component()">Назад</button>
+        </div>
+        <button class="back-button" onclick="backToMainMenu()">Назад в меню</button>
+    </div>
+
+    <script>
+        function showGraphics() {
+            document.getElementById("main-menu").style.display = "none";
+            document.getElementById("graphics-section").style.display = "block";
+        }
+
+        function showC4Model() {
+            document.getElementById("main-menu").style.display = "none";
+            document.getElementById("c4-model-section").style.display = "block";
+            document.getElementById("c4-context").style.display = "block";
+        }
+
+        function showC4Container() {
+            const contextDiv = document.getElementById("c4-context");
+            const containerDiv = document.getElementById("c4-container");
+            if (contextDiv.style.display === "block") {
+                contextDiv.style.display = "none";
+                containerDiv.style.display = "block";
+            } else {
+                contextDiv.style.display = "block";
+                containerDiv.style.display = "none";
+            }
+        }
+
+        function showC4Component() {
+            document.getElementById("c4-container").style.display = "none";
+            document.getElementById("c4-component").style.display = "block";
+        }
+
+        function showC4Code() {
+            document.getElementById("c4-component").style.display = "none";
+            document.getElementById("c4-code").style.display = "block";
+        }
+
+        function backToMainMenu() {
+            document.getElementById("graphics-section").style.display = "none";
+            document.getElementById("c4-model-section").style.display = "none";
+            document.getElementById("main-menu").style.display = "block";
+        }
+    </script>
+</body>
+</html>
