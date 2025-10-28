@@ -37,6 +37,8 @@
             max-width: 100%;
             height: auto;
             margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 4px;
         }
         .progress-bar {
             display: flex;
@@ -67,6 +69,12 @@
         .step-name {
             font-size: 12px;
         }
+        .metrics-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
@@ -75,8 +83,16 @@
     <div id="main-menu">
         <button onclick="showGraphics()">Графики</button>
         <button onclick="showC4Model()">C4-model</button>
+        <div class="metrics-buttons">
+            <button onclick="showModularity()">Q - индекс модулярности</button>
+            <button onclick="showCycles()">Cy(G) - количество циклов</button>
+            <button onclick="showInOut()">Сa(S) входящие Ce(S) исходящие зависимости</button>
+            <button onclick="showDepth()">D - глубина</button>
+            <button onclick="showCentralisation()">Cc - централизованность</button>
+        </div>
     </div>
 
+    <!-- Раздел "Графики" -->
     <div id="graphics-section" style="display: none;">
         <h2>Графики</h2>
         <div class="image-container">
@@ -86,9 +102,9 @@
         <button class="back-button" onclick="backToMainMenu()">Назад</button>
     </div>
 
+    <!-- Раздел "C4-model" -->
     <div id="c4-model-section" style="display: none;">
         <h2>C4-model</h2>
-
         <div class="progress-bar">
             <div class="progress-step" onclick="showC4Context()">
                 <div id="step1" class="step-number active">1</div>
@@ -141,7 +157,123 @@
         <button class="back-button" onclick="backToMainMenu()">Назад в меню</button>
     </div>
 
+    <!-- Раздел "Q - индекс модулярности" -->
+    <div id="modularity-section" style="display: none;">
+        <h2>Q - индекс модулярности</h2>
+        <div class="image-container">
+            <img src="Modularity.png" alt="Q - индекс модулярности">
+        </div>
+        <button class="back-button" onclick="backToMainMenu()">Назад</button>
+    </div>
+
+    <!-- Раздел "Cy(G) - количество циклов" -->
+    <div id="cycles-section" style="display: none;">
+        <h2>Cy(G) - количество циклов</h2>
+        <div class="image-container">
+            <img src="cycle.png" alt="Количество циклов">
+        </div>
+        <div>
+            <button onclick="showCycleSolution()">Решение</button>
+        </div>
+        <div id="cycle-solution" class="image-container" style="display: none;">
+            <img src="cyclesolution.png" alt="Решение для циклов">
+        </div>
+        <button class="back-button" onclick="backToMainMenu()">Назад</button>
+    </div>
+
+    <!-- Раздел "Сa(S) входящие Ce(S) исходящие зависимости" -->
+    <div id="inout-section" style="display: none;">
+        <h2>Сa(S) входящие Ce(S) исходящие зависимости</h2>
+        <div class="image-container">
+            <img src="inout.png" alt="Входящие и исходящие зависимости">
+        </div>
+        <div>
+            <button onclick="showInOutSolution()">Решение</button>
+        </div>
+        <div id="inout-solution" class="image-container" style="display: none;">
+            <img src="inoutsolution.png" alt="Решение для зависимостей">
+        </div>
+        <button class="back-button" onclick="backToMainMenu()">Назад</button>
+    </div>
+
+    <!-- Раздел "D - глубина" -->
+    <div id="depth-section" style="display: none;">
+        <h2>D - глубина</h2>
+        <div class="image-container">
+            <img src="depht.png" alt="Глубина">
+        </div>
+        <div>
+            <button onclick="showDepthSolution()">Решение</button>
+        </div>
+        <div id="depth-solution" class="image-container" style="display: none;">
+            <img src="depthsolution.png" alt="Решение для глубины">
+        </div>
+        <button class="back-button" onclick="backToMainMenu()">Назад</button>
+    </div>
+
+    <!-- Раздел "Cc - централизованность" -->
+    <div id="centralisation-section" style="display: none;">
+        <h2>Cc - централизованность</h2>
+        <div class="image-container">
+            <img src="centralisation.png" alt="Централизованность">
+        </div>
+        <button class="back-button" onclick="backToMainMenu()">Назад</button>
+    </div>
+
     <script>
+        // Функции для переключения между разделами
+        function showGraphics() {
+            hideAllSections();
+            document.getElementById("graphics-section").style.display = "block";
+        }
+
+        function showC4Model() {
+            hideAllSections();
+            document.getElementById("c4-model-section").style.display = "block";
+            showC4Context();
+        }
+
+        function showModularity() {
+            hideAllSections();
+            document.getElementById("modularity-section").style.display = "block";
+        }
+
+        function showCycles() {
+            hideAllSections();
+            document.getElementById("cycles-section").style.display = "block";
+        }
+
+        function showCycleSolution() {
+            const solutionDiv = document.getElementById("cycle-solution");
+            solutionDiv.style.display = solutionDiv.style.display === "none" ? "block" : "none";
+        }
+
+        function showInOut() {
+            hideAllSections();
+            document.getElementById("inout-section").style.display = "block";
+        }
+
+        function showInOutSolution() {
+            const solutionDiv = document.getElementById("inout-solution");
+            solutionDiv.style.display = solutionDiv.style.display === "none" ? "block" : "none";
+        }
+
+        function showDepth() {
+            hideAllSections();
+            document.getElementById("depth-section").style.display = "block";
+        }
+
+        function showDepthSolution() {
+            const solutionDiv = document.getElementById("depth-solution");
+            solutionDiv.style.display = solutionDiv.style.display === "none" ? "block" : "none";
+        }
+
+        function showCentralisation() {
+            hideAllSections();
+            document.getElementById("centralisation-section").style.display = "block";
+        }
+
+        // Функции для C4-model
         function updateProgressBar(step) {
             for (let i = 1; i <= 4; i++) {
                 const stepElement = document.getElementById(`step${i}`);
@@ -151,18 +283,6 @@
                     stepElement.classList.remove("active");
                 }
             }
-        }
-
-        function showGraphics() {
-            document.getElementById("main-menu").style.display = "none";
-            document.getElementById("graphics-section").style.display = "block";
-            document.getElementById("c4-model-section").style.display = "none";
-        }
-
-        function showC4Model() {
-            document.getElementById("main-menu").style.display = "none";
-            document.getElementById("c4-model-section").style.display = "block";
-            showC4Context();
         }
 
         function showC4Context() {
@@ -198,9 +318,16 @@
         }
 
         function backToMainMenu() {
-            document.getElementById("graphics-section").style.display = "none";
-            document.getElementById("c4-model-section").style.display = "none";
+            hideAllSections();
             document.getElementById("main-menu").style.display = "block";
+        }
+
+        function hideAllSections() {
+            const sections = document.querySelectorAll('div[id$="-section"]');
+            sections.forEach(section => {
+                section.style.display = "none";
+            });
+            document.getElementById("main-menu").style.display = "none";
         }
     </script>
 </body>
